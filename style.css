@@ -1,0 +1,75 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background:linear-gradient(to right,#4facfe, #00f2fe);
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    color: white;
+    margin-bottom: 20px;
+}
+#logo {
+    vertical-align: middle;
+}
+
+#input-container {
+    text-align: center;
+}
+
+
+input {
+    padding: 10px;
+    width: 200px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: none;
+
+}
+
+button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background: green;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+
+}
+
+button:hover {
+    background: rgb(3, 52, 3);
+}
+
+.history {
+  margin-top: 20px;
+}
+
+#historyList button {
+  margin: 5px;
+  padding: 8px 12px;
+  border-radius: 5px;
+  background: #111;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+#historyList button:hover {
+  background: #333;
+}
+
+
+.card {
+    color: rgb(8, 0, 0);
+    padding: 20px;
+    border-radius: 10px;
+    display: inline-block;
+    margin-top: 20px;
+}
+
