@@ -1,26 +1,33 @@
 const apikey = "4694e1e64592529050b45d3f3e012314";
 
-// ✅ Live Date & Time
+/* ===== DATE & TIME ===== */
 function updateDateTime() {
     const now = new Date();
-    const date = now.toLocaleDateString();
-    const time = now.toLocaleTimeString();
-
     document.getElementById("datetime").innerText =
-        "📅 " + date + " | ⏰ " + time;
+        "📅 " + now.toLocaleDateString() +
+        " | ⏰ " + now.toLocaleTimeString();
 }
-
 setInterval(updateDateTime, 1000);
 updateDateTime();
 
-// ✅ Get weather by city
+/* ===== ENTER KEY SUPPORT ===== */
+document.getElementById("city").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+        getweather();
+    }
+});
+
+/* ===== GET WEATHER BY CITY ===== */
 async function getweather() {
-    const city = document.getElementById("city").value;
+    const input = document.getElementById("city");
+    const city = input.value.trim();
 
     if (!city) {
-        alert("Please enter a city name");
+        alert("Enter city name");
         return;
     }
+
+    input.value = "";
 
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apikey}&units=metric`;
 
@@ -31,59 +38,53 @@ async function getweather() {
         const data = await res.json();
 
         if (data.cod != 200) {
-            alert(data.message || "City not found");
-            document.getElementById("cityname").innerText = "";
-            return;
+            throw new Error(data.message);
         }
 
         displayweather(data);
 
-    } catch (error) {
-        alert("Error fetching data");
+    } catch (err) {
+        alert("❌ " + err.message);
     }
 }
 
-// ✅ Get weather by location
+/* ===== LOCATION WEATHER ===== */
 function getlocation() {
-    navigator.geolocation.getCurrentPosition(
-        async (pos) => {
-            const lat = pos.coords.latitude;
-            const lon = pos.coords.longitude;
+    navigator.geolocation.getCurrentPosition(async (pos) => {
 
-            const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apikey}&units=metric`;
+        const lat = pos.coords.latitude;
+        const lon = pos.coords.longitude;
 
-            try {
-                document.getElementById("cityname").innerText = "Loading...";
+        const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apikey}&units=metric`;
 
-                const res = await fetch(url);
-                const data = await res.json();
+        try {
+            document.getElementById("cityname").innerText = "Loading...";
 
-                if (data.cod != 200) {
-                    alert(data.message || "Error getting location weather");
-                    return;
-                }
+            const res = await fetch(url);
+            const data = await res.json();
 
-                displayweather(data);
+            displayweather(data);
 
-            } catch (error) {
-                alert("Error fetching data");
-            }
-        },
-    );
+        } catch {
+            alert("Error fetching location weather");
+        }
+
+    }, () => {
+        alert("Location permission denied");
+    });
 }
 
-// ✅ Display weather
+/* ===== DISPLAY WEATHER ===== */
 function displayweather(data) {
+
     document.getElementById("cityname").innerText = data.name;
-    document.getElementById("temp").innerText = "Temperature: " + data.main.temp + "°C";
-    document.getElementById("condition").innerText = "Condition: " + data.weather[0].main;
-    document.getElementById("humidity").innerText = "Humidity: " + data.main.humidity + "%";
-    document.getElementById("wind").innerText = "Wind: " + data.wind.speed + " m/s";
+    document.getElementById("temp").innerText = "Temparecher" + "🌡 " + data.main.temp + "°C";
+    document.getElementById("condition").innerText = "Condition" + "🌤 " + data.weather[0].main;
+    document.getElementById("humidity").innerText ="Humidity" + "💧 " + data.main.humidity + "%";
+    document.getElementById("wind").innerText =" Wind" + "🌬 " + data.wind.speed + " m/s";
 
-    // ✅ Show city local time
-    const now = new Date();
-    const cityTime = new Date(now.getTime() + data.timezone * 1000);
+    /* CITY TIME */
+    const utc = new Date().getTime() + new Date().getTimezoneOffset() * 60000;
+    const cityTime = new Date(utc + data.timezone * 1000);
 
-    
 }
-
