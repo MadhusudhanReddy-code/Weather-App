@@ -43,9 +43,17 @@ async function getweather() {
 
         displayweather(data);
 
-    } catch (err) {
-        alert("❌ " + err.message);
-    }
+    } catch (error) {
+
+    document.getElementById("cityname").innerText = "City not found";
+    document.getElementById("temp").innerText = "";
+    document.getElementById("condition").innerText = "";
+    document.getElementById("humidity").innerText = "";
+    document.getElementById("wind").innerText = "";
+    document.getElementById("citytime").innerText = "";
+
+    alert("❌ " + error.message);
+}
 }
 
 /* ===== LOCATION WEATHER ===== */
