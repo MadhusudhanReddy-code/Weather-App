@@ -45,26 +45,6 @@ button {
 button:hover {
     background: rgb(3, 52, 3);
 }
-
-.history {
-  margin-top: 20px;
-}
-
-#historyList button {
-  margin: 5px;
-  padding: 8px 12px;
-  border-radius: 5px;
-  background: #111;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-}
-
-#historyList button:hover {
-  background: #333;
-}
-
-
 .card {
     color: rgb(8, 0, 0);
     padding: 20px;
@@ -114,11 +94,6 @@ button:hover {
         width: 100%;
         padding: 12px;
         font-size: 14px;
-    }
-
-    #historyList button {
-        width: 100%;
-        margin: 5px 0;
     }
 
     .card {
